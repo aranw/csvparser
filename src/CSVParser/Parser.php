@@ -6,11 +6,11 @@ use Exception;
 /**
 * Parser
 *
-* @category Category
+* @category CSVParser
 * @package  CSVParser
 * @author   Aran Wilkinson <aran3001@gmail.com>
 * @license  
-* @link     
+* @link     https://github.com/aranw/csvparser
 */
 class Parser implements ParserInterface
 {
@@ -214,7 +214,7 @@ class Parser implements ParserInterface
     }
 
     /**
-     * loadFromPath
+     * loadFromPath is used to open the file if a resource isn't passed to the class
      * 
      * @param mixed $input Description.
      *
@@ -230,7 +230,7 @@ class Parser implements ParserInterface
     }
 
     /**
-     * isFileResource
+     * isFileResource checks to see if the passed file is a resource or not
      * 
      * @param mixed $input Description.
      *

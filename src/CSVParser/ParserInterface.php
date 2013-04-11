@@ -7,7 +7,7 @@
 * @package  CSVParser
 * @author   Aran Wilkinson <aran3001@gmail.com>
 * @license  
-* @link       
+* @link     https://github.com/aranw/csvparser
 */
 interface ParserInterface
 {
