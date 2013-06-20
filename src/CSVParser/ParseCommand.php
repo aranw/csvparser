@@ -67,7 +67,13 @@ class ParseCommand extends Command
 
         $output->writeln("<info>[Parsing]</info> $filename");
 
-        $parser = new Parser($filename);
+        try {
+            $parser = new Parser($filename);
+        } catch (Exception $e) {
+            $output->writeln("<error>[Warning]</error> Unable to parse $filename");
+            exit;
+        }
+
         $parser->parseResource();
 
         $xmlOutput = $input->getOption('xml');

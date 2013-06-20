@@ -98,7 +98,7 @@ class Parser implements ParserInterface
                 if ($row == 1) {
                     $headings[$i] = $data[$i];
                 } else {
-                    $record[$fields[$i]] = $data[$i];
+                    $record[$headings[$i]] = $data[$i];
                 }
             }
 
@@ -224,7 +224,7 @@ class Parser implements ParserInterface
      */
     private function loadFromPath($input)
     {
-        if (($this->resource = fopen($filename, "r")) == FALSE) {
+        if (($this->resource = fopen($input, "r")) == FALSE) {
             throw new Exception("Unable load file.");
         }
     }

@@ -14,8 +14,23 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseResource()
     {
+        $resource = null;
+
+        // Open file in PHP
+        if (($resource = fopen("tests/test.csv", "r")) == FALSE) {
+            throw new Exception("Unable load file.");
+        }
+        // Pass file resource to Parser
+        $application = new Parser($resource);
+        $this->assertEmpty($application->getOutput());
+        $application->parseResource();
+        $this->assertCount(1, $application->getOutput());
+    }
+
+    public function testParseResourceFunction()
+    {
         $application = new Parser('tests/test.csv');
-        $this->assertNull($application->getOutput());
+        $this->assertEmpty($application->getOutput());
         $application->parseResource();
         $this->assertCount(1, $application->getOutput());
     }
