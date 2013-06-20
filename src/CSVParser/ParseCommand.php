@@ -69,12 +69,18 @@ class ParseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $options = array();
         $filename = $input->getArgument('filename');
+        $resultName = $input->getArgument('resultName');
 
         $output->writeln("<info>[Parsing]</info> $filename");
 
+        if ($resultName) {
+            $options['resultName'] = $resultName;
+        }
+
         try {
-            $parser = new Parser($filename);
+            $parser = new Parser($filename, $options);
         } catch (Exception $e) {
             $output->writeln("<error>[Warning]</error> Unable to parse $filename");
             exit;
