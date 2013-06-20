@@ -5,10 +5,13 @@ use CSVParser\Parser;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
-
+    public $options = array(
+            'resultName' => 'address'
+        );
+        
     public function testConstructor()
     {
-        $application = new Parser('tests/test.csv');
+        $application = new Parser('tests/test.csv', $this->options);
         $this->assertEquals('tests/test.csv', $application->getFilename());
     }
 
@@ -21,7 +24,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             throw new Exception("Unable load file.");
         }
         // Pass file resource to Parser
-        $application = new Parser($resource);
+        $application = new Parser($resource, $this->options);
         $this->assertEmpty($application->getOutput());
         $application->parseResource();
         $this->assertCount(1, $application->getOutput());
@@ -29,7 +32,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseResourceFunction()
     {
-        $application = new Parser('tests/test.csv');
+        $application = new Parser('tests/test.csv', $this->options);
         $this->assertEmpty($application->getOutput());
         $application->parseResource();
         $this->assertCount(1, $application->getOutput());
@@ -37,7 +40,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testOutput()
     {
-        $application = new Parser('tests/test.csv');
+        $application = new Parser('tests/test.csv', $this->options);
         $application->parseResource();
 
         $result = $application->getOutput();
@@ -47,7 +50,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testJson()
     {
-        $application = new Parser('tests/test.csv');
+        $application = new Parser('tests/test.csv', $this->options);
         $application->parseResource();
 
         $result = $application->getJson();
@@ -57,7 +60,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testXml()
     {
-        $application = new Parser('tests/test.csv');
+        $application = new Parser('tests/test.csv', $this->options);
         $application->parseResource();
 
         $result = $application->getXml();

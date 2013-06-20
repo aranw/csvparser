@@ -2,6 +2,7 @@
 
 use SimpleXMLElement;
 use Exception;
+use Doctrine\Common\Inflector\Inflector;
 
 /**
 * Parser
@@ -51,6 +52,17 @@ class Parser implements ParserInterface
     public $filename;
 
     /**
+     * Stores the name of the Result Type for use with Arrays, JSON and XML Ouput
+     *
+     * Defaults to result if no value is set by user
+     * 
+     * @var string
+     *
+     * @access public
+     */
+    public $resultName = "result";
+
+    /**
      * The initial constructor for the class.
      * 
      * @param mixed $filename Description.
@@ -59,17 +71,24 @@ class Parser implements ParserInterface
      *
      * @return mixed Value.
      */
-    public function __construct($filename)
+    public function __construct($filename, $options = array())
     {
-        $this->filename = $filename;
         // Check file exists
-        if ( ! is_null($this->filename)) {
+        if ( ! is_null($filename)) {
+            $this->filename = $filename;
+
             // Load file contents
             if ($this->isFileResource($this->filename)) {
                 $this->loadFromResource($this->filename);
             } else {
                 $this->loadFromPath($this->filename);
             }
+
+            // Read options in and set default values up
+            if (isset($options['resultName'])) {
+                $this->resultName = $options['resultName'];
+            }
+
         } else {
             throw new Exception("No file provided.");
         }
@@ -105,7 +124,7 @@ class Parser implements ParserInterface
             if ($row != 1) {
                 // address is set manually here for XML output
                 // Ideally this should be provided via an input or some other method
-                $processedData[]['address'] = $record;
+                $processedData[][$this->resultName] = $record;
             }
 
             $row++;
@@ -138,7 +157,9 @@ class Parser implements ParserInterface
      */
     public function getXml()
     {
-        $this->xml = new SimpleXMLElement("<?xml version=\"1.0\"?><addresses></addresses>");
+        $rootName = Inflector::pluralize($this->resultName);
+
+        $this->xml = new SimpleXMLElement("<?xml version=\"1.0\"?><".$rootName."></".$rootName.">");
         $this->arrayToXml($this->output, $this->xml);
 
         return $this->xml->asXml();

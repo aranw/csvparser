@@ -44,6 +44,12 @@ class ParseCommand extends Command
                 'Output result as XML'
             )
             ->addOption(
+                'resultName',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Set Result Name for Output'
+            )
+            ->addOption(
                 'output-file',
                 null,
                 InputOption::VALUE_OPTIONAL,
